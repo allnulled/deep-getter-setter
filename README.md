@@ -62,11 +62,24 @@ const DeepGetterSetter = require("deep-getter-setter");
 ```
 
 ### In browsers:
+
 ```html
 <script src="./node_modules/deep-getter-setter/src/deep-getter-setter.js"></script>
 ```
 
+
 # 3. API comment
+
+#### For the next examples:
+
+Consider this line included:
+
+```js
+var {get,set,modify,exists,ensure} = DeepGetterSetter;
+```
+It just decouples the whole API by its properties.
+
+#### The API
 
 The API to master here:
 
@@ -152,7 +165,7 @@ exists(x, ["a"]) // Then true if a is in x.
 
 6, The `value` at `ensure (data, selector, value)`
 
-When the selected node does not exist, it is created.
+When the selected node does not exist, it is created with this provided value.
 
 ```js
 ensure(x, ["a"]) // Then x.a will be something, or {}.
