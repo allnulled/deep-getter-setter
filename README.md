@@ -150,9 +150,15 @@ By default, it will return true when exists, and false when it does not exist.
 exists(x, ["a"]) // Then true if a is in x.
 ```
 
-6, The `value` at `ensure (data, selector, )
+6, The `value` at `ensure (data, selector, value)`
 
-6. The `
+When the selected node does not exist, it is created.
+
+```js
+ensure(x, ["a"]) // Then x.a will be something, or {}.
+ensure(x, ["a"], 50) // Then x.a will be something, or 50.
+```
+
 
 # 4. Usage
 
