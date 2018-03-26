@@ -41,7 +41,9 @@ console.log(get(data, 'a b c d e h'.split(" ")) === 333);
 
 // Modify usage:
 
-console.log(modify(data, 'a b c d e g'.split(" "), 222) === 222);
+console.log(modify(data, 'a b c d e g i'.split(" "), function(parent, key) {
+	
+}) === 2222);
 console.log(modify(data, 'a b c d e h'.split(" "), 333) === 333);
 
 // Check usage:
@@ -73,7 +75,7 @@ const DeepGetterSetter = require("deep-getter-setter");
 
 # 3. API comment
 
-There are only 5 functions to master here:
+The API to master here:
 
 1. `get (data, selector)`: 
 
@@ -106,26 +108,40 @@ That is all.
 
 2. The `selector`: array with strings for each nested property to be accessed.
 
-#### The other commands:
+#### The other parameters:
 
 3. The `modifier` at `modify (data, selector, modifier)`:
 
 Function that can return whatever in the last moment of the function.
 
 ```js
-function modify (
-	parent /* object */, 
+modify(someData, someSelector, function forLastNode (
+	value /* any */,
 	key /* string */, 
-	data /* object */, 
+	parent /* object */, 
+	index /* integer */,
 	selector /* array of strings */
+	accumulated /* array */,
+	data /* object */,
 	) {
 	// Our modifier's code.
-}
+} 
+[, function forEachNode (
+	value /* any */,
+	key /* string */, 
+	parent /* object */, 
+	index /* integer */,
+	selector /* array of strings */
+	accumulated /* array */,
+	data /* object */,
+) {
+	// Our modifiers's iterative (from parents to leaves) code.
+}]
 ```
 
 # 4. Usage
 
-### a) Start retrieving the 5 functions:
+### a) Start retrieving the API from the master object:
 
 ```js
 var {get,set,modify,exists,ensure} = DeepGetterSetter;
@@ -133,7 +149,16 @@ var {get,set,modify,exists,ensure} = DeepGetterSetter;
 
 ### b) Test the example (found at `test/deep-getter-setter-spec.js`):
 
+~$ `npm run test`
+
+Which will execute some examples that demonstrate what we can expect from the API:
+
+
 ```js
+
+// In Node.js:
+const DeepGetterSetter = require("../src/deep-getter-setter.js");
+
 // Retrieve the 3 functions:
 var {get,set,modify,exists,ensure} = DeepGetterSetter;
 
@@ -141,13 +166,15 @@ var {get,set,modify,exists,ensure} = DeepGetterSetter;
 var data = {a:{b:[0,5,10]}};
 
 // Check that that the getter works okay:
-console.log(get(data, ["a","b","1"]) === data["a"]["b"]["1"] ? "Passed getter 1!" : "Failed!");
+console.log(get(data, ["a","b","1"]) === data["a"]["b"]["1"] ? "Passed!" : "Failed -  getter 1!");
 
 // Use the setter:
 set(data, ["a","b","1"], 6);
 
+console.log(get(data, ["a","b","1"]));
+
 // Check that the setter worked good:
-console.log(get(data, ["a","b","1"]) === 6 ? "Passed setter 1!" : "Failed!");
+console.log(get(data, ["a","b","1"]) === 6 ? "Passed!" : "Failed -  setter 1!");
 
 // Use the modifier:
 modify(data, ["a","b","1"], function(parent, key) {
@@ -155,21 +182,24 @@ modify(data, ["a","b","1"], function(parent, key) {
 });
 
 // Check that the modifiers worked fine:
-console.log(get(data, ["a","b","1"]) === data["a"]["b"]["1"] ? "Passed modifier 1!" : "Failed!");
+console.log(get(data, ["a","b","1"]) === data["a"]["b"]["1"] ? "Passed!" : "Failed -  modifier 1!");
 
 // Use the exists:
-console.log(exists(data, ["a", "b", "5"]) === false ? "Passed exists 1!":"Failed!");
+console.log(exists(data, ["a", "b", "5"]) === false ? "Passed!":"Failed -  exists 1!");
 
 // Check that the exists worked fine:
-console.log( (!(5 in data["a"]["b"])) ? "Passed exists 2!" : "Failed");
+console.log( (!(5 in data["a"]["b"])) ? "Passed!" : "Failed -  exists 2!");
 
 // Use the ensurer:
 ensure(data, ["a", "b", "5"]);
 
 // Check that the ensurer worked fine:
-console.log(exists(data, ["a", "b", "5"]) === true ? "Passed ensurer 1!" : "Failed!");
-console.log(typeof (get(data, ["a", "b", "5"])) === "object" ? "Passed ensurer 2!" : "Failed!");
+console.log(exists(data, ["a", "b", "5"]) === true ? "Passed!" : "Failed -  ensurer 1!");
+console.log(typeof (get(data, ["a", "b", "5"])) === "object" ? "Passed!" : "Failed -  ensurer 2!");
 ```
+
+It must print everything "Passed!", and nothing "Failed - ...".
+
 
 # 5. Conclusion
 
