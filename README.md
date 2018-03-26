@@ -44,12 +44,10 @@ That is all.
 ### a) Start retrieving the 3 functions:
 
 ```js
-const get = DeepGetterSetter.get;
-const set = DeepGetterSetter.set;
-const modify = DeepGetterSetter.modify;
+var {get,set,modify} = DeepGetterSetter;
 ```
 
-### b) Test the example (found at `test/deep-getter-setter.js`):
+### b) Test the example (found at `test/deep-getter-setter-spec.js`):
 
 ```js
 // Retrieve the 3 functions:
