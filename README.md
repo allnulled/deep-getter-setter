@@ -8,9 +8,51 @@ The package deep-getter-setter is a very small but powerful tool.
 
 Basically:
 
-1. It is used to set values to an object (deeply).
-2. It is used get values (deeply) from an object.
-3. It is used to modify (ddep) values of an object.
+Understanding that...
+
+0. a nesteable is any object or array.
+
+...then it is used to...
+
+1. get deep values from a nesteable.
+2. set deep values to a nesteable.
+3. modify deep values of a nesteable.
+4. check deep values of a nesteable.
+5. ensure deep values of a nesteable.
+
+What it is translated to:
+
+```js
+
+const {get,set,modify,exists,ensure} = require("deep-getter-setter");
+const data = {a:{b:{c:{d:{e:{f:111}}}}}};
+
+// Get usage:
+
+console.log(get(data, ['a','b','c','d','e','f']) === 111);
+console.log(get(data, "a b c d e f".split(" ")) === 111);
+
+// Set usage:
+
+console.log(set(data, 'a b c d e g'.split(" "), 222) === 222);
+console.log(get(data, 'a b c d e g'.split(" ")) === 222);
+console.log(set(data, 'a b c d e h'.split(" "), 333) === 333);
+console.log(get(data, 'a b c d e h'.split(" ")) === 333);
+
+// Modify usage:
+
+console.log(modify(data, 'a b c d e g'.split(" "), 222) === 222);
+console.log(modify(data, 'a b c d e h'.split(" "), 333) === 333);
+
+// Check usage:
+
+console.log(exists(data, 'a b c d e f'))
+
+// Ensure usage:
+
+
+
+```
 
 # 2. Installation
 
@@ -18,7 +60,7 @@ Just:
 
     ~$ npm install deep-getter-setter
 
-### In Node.js:
+### In Node.js (include literally to compatibilize the examples):
 
 ```js
 const DeepGetterSetter = require("deep-getter-setter");
@@ -31,7 +73,7 @@ const DeepGetterSetter = require("deep-getter-setter");
 
 # 3. API comment
 
-There are only 3 functions to master here:
+There are only 5 functions to master here:
 
 1. `get (data, selector)`: 
 
@@ -77,16 +119,16 @@ function modify (
 	data /* object */, 
 	selector /* array of strings */
 	) {
-	// ...
+	// Our modifier's code.
 }
-```.
+```
 
 # 4. Usage
 
-### a) Start retrieving the 3 functions:
+### a) Start retrieving the 5 functions:
 
 ```js
-var {get,set,modify} = DeepGetterSetter;
+var {get,set,modify,exists,ensure} = DeepGetterSetter;
 ```
 
 ### b) Test the example (found at `test/deep-getter-setter-spec.js`):

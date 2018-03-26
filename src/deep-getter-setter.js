@@ -1,3 +1,12 @@
+function modifierEachCommon (value, key, parent, index, selector, data, acc) {
+	if(typeof parent !== "object") {
+		throw "Key " + key +" not found because parent is not an object: " + parent;
+	}
+	if(!(key in parent)) {
+		throw "Key " + key + " not found in " + parent;
+	}
+	return value;
+}
 /*
  * @type {Function}
  * @name modifier
@@ -9,19 +18,16 @@
  * that will execute a provided function against the matched node
  * and return what it retuns
  */
-function modifier (data, selector, action) {
+function modifier (data, selector, action, actionEach = modifierEachCommon) {
 	var ref = data;
-	for(var a=0; a<selector.length-1; a++) {
+	var acc = [];
+	var a = 0;
+	for(a=0; a<selector.length-1; a++) {
 		var key = selector[a];
-		if(typeof ref !== "object") {
-			throw "Key " + key +" not found because parent is not an object: " + ref;
-		}
-		if(!(key in ref)) {
-			throw "Key " + key + " not found in " + ref;
-		}
-		ref = ref[key];
+		ref = actionEach(ref[key], key, ref, a, selector.slice(0,a), acc, data);
 	}
-	return action(ref, selector[selector.length-1], selector, data);
+	var key = selector[selector.length-1];
+	return action(ref[key], key, ref, selector.length-1, selector, acc, data);
 };
 /*
  * @type {Function}
@@ -33,7 +39,7 @@ function modifier (data, selector, action) {
  * that will return the matched node
  */
 function getter (data, selector) {
-	return modifier(data, selector, function(parent, key, selector, data) {
+	return modifier(data, selector, function(value, key, parent, index, selector, acc, data) {
 		return parent[key];
 	});
 };
@@ -48,9 +54,9 @@ function getter (data, selector) {
  * that will try to set a new provided value to a matched node
  * and return the new value
  */
-function setter (data, selector, value) {
-	return modifier(data, selector, function(parent, key, selector, data) {
-		return parent[key] = value;
+function setter (data, selector, valuePassed) {
+	return modifier(data, selector, function(value, key, parent, index, selector, acc, data) {
+		return parent[key] = valuePassed;
 	});
 };
 /*
@@ -66,9 +72,9 @@ function setter (data, selector, value) {
  *		 ·	Sets the provided value to the selected path (or {} if not provided)
  *
  */
-function ensurer (data, selector, value={}) {
-	return modifier(data, selector, function(parent, key, selector, data) {
-		return (key in parent) ? value : (parent[key] = value);
+function ensurer (data, selector, valuePassed={}) {
+	return modifier(data, selector, function(value, key, parent, index, selector, acc, data) {
+		return (key in parent) ? valuePassed : (parent[key] = valuePassed);
 	});
 };
 
@@ -89,15 +95,15 @@ function ensurer (data, selector, value={}) {
  *   
  */
 function exists (data, selector, trueFn, falseFn) {
-	return modifier(data, selector, function(parent, key, selector, data) {
+	return modifier(data, selector, function(value, key, parent, index, selector, acc, data) {
 		if(key in parent) {
 			if(trueFn) {
-				return trueFn(parent, key, selector, data);
+				return trueFn(value, key, parent, selector, data);
 			}
 			return true;
 		} else {
 			if(falseFn) {
-				return falseFn(parent, key, selector, data);
+				return falseFn(value, key, parent, selector, data);
 			}
 			return false;
 		}
