@@ -35,9 +35,23 @@ There are only 3 functions to master here:
 
 1. `get (data, selector)`: returns the item value.
 2. `set (data, selector, value)`: redefines the item value.
-3. `modify (data, selector, value)`: modifies the item value through a function.
+3. `modify (data, selector, modifier)`: modifies the item value through a function.
 
 That is all.
+
+# 3.1. How does it work?
+
+In these 3 functions (`get`, `set` and `modify`), there are only 2 common parameters:
+
+1. The `data`: nestable object or array.
+
+2. The `selector`: array with strings for each nested property to be accessed.
+
+3. In `set`, the final value of the selected item.
+		
+			In `modify`, the final function to apply on the selected item.
+
+
 
 # 4. Usage
 
