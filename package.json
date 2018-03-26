@@ -1,6 +1,6 @@
 {
   "name": "deep-getter-setter",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Deep getter and setter for JavaScript. Minimal.",
   "main": "src/deep-getter-setter.js",
   "directories": {
