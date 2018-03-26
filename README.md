@@ -24,17 +24,17 @@ Understanding that...
 
 1. From this:
 
-	{a:{b:{c:{d:{e:{f:{g:{h:{i:{j:{k:{l:{m:888}}}}}}}}}}}}}
+	`{a:{b:{c:{d:{e:{f:{g:{h:{i:{j:{k:{l:{m:888}}}}}}}}}}}}}`
 
 2. And this:
 
-	'a b c d e f g h i j k l m'.split(' ')
+	`'a b c d e f g h i j k l m'.split(' ')`
 
 3. You can get this: 
 
-	888
+	`888`
 
-And like this feature, which is `get`, you can:
+And from this simple idea, you can:
 
 · `get`
 · `set`
