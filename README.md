@@ -33,25 +33,53 @@ const DeepGetterSetter = require("deep-getter-setter");
 
 There are only 3 functions to master here:
 
-1. `get (data, selector)`: returns the item value.
-2. `set (data, selector, value)`: redefines the item value.
-3. `modify (data, selector, modifier)`: modifies the item value through a function.
+1. `get (data, selector)`: 
+
+Returns the item value.
+
+2. `set (data, selector, value)`: 
+
+Redefines the item value.
+
+3. `modify (data, selector, modifier)`: 
+
+Modifies the item value through a function.
+
+4. `exists (data, selector, success, error)`: 
+
+Do different things depending on its existence.
+
+5. `ensure (data, selector, value)`: 
+
+Same than set but when value is not provided, it sets a {}.
 
 That is all.
 
+
 # 3.1. How does it work?
 
-In these 3 functions (`get`, `set` and `modify`), there are only 2 common parameters:
+#### The 2 common parameters:
 
-1. The `data`: nestable object or array.
+1. The `data`: nestable object or array with the data to be searched in.
 
 2. The `selector`: array with strings for each nested property to be accessed.
 
-3. a) In `set`, the final value of the selected item.
-		
-b) In `modify`, the final function to apply on the selected item.
+#### The other commands:
 
+3. The `modifier` at `modify (data, selector, modifier)`:
 
+Function that can return whatever in the last moment of the function.
+
+```js
+function modify (
+	parent /* object */, 
+	key /* string */, 
+	data /* object */, 
+	selector /* array of strings */
+	) {
+	// ...
+}
+```.
 
 # 4. Usage
 
@@ -65,19 +93,19 @@ var {get,set,modify} = DeepGetterSetter;
 
 ```js
 // Retrieve the 3 functions:
-var {get,set,modify} = DeepGetterSetter;
+var {get,set,modify,exists,ensure} = DeepGetterSetter;
 
 // Some random data:
 var data = {a:{b:[0,5,10]}};
 
 // Check that that the getter works okay:
-console.log(get(data, ["a","b","1"]) === 5 ? "Passed!" : "Failed!");
+console.log(get(data, ["a","b","1"]) === data["a"]["b"]["1"] ? "Passed getter 1!" : "Failed!");
 
 // Use the setter:
 set(data, ["a","b","1"], 6);
 
 // Check that the setter worked good:
-console.log(get(data, ["a","b","1"]) === 6 ? "Passed!" : "Failed!");
+console.log(get(data, ["a","b","1"]) === 6 ? "Passed setter 1!" : "Failed!");
 
 // Use the modifier:
 modify(data, ["a","b","1"], function(parent, key) {
@@ -85,9 +113,22 @@ modify(data, ["a","b","1"], function(parent, key) {
 });
 
 // Check that the modifiers worked fine:
-console.log(get(data, ["a","b","1"]) === 7 ? "Passed!" : "Failed!");
+console.log(get(data, ["a","b","1"]) === data["a"]["b"]["1"] ? "Passed modifier 1!" : "Failed!");
+
+// Use the exists:
+console.log(exists(data, ["a", "b", "5"]) === false ? "Passed exists 1!":"Failed!");
+
+// Check that the exists worked fine:
+console.log( (!(5 in data["a"]["b"])) ? "Passed exists 2!" : "Failed");
+
+// Use the ensurer:
+ensure(data, ["a", "b", "5"]);
+
+// Check that the ensurer worked fine:
+console.log(exists(data, ["a", "b", "5"]) === true ? "Passed ensurer 1!" : "Failed!");
+console.log(typeof (get(data, ["a", "b", "5"])) === "object" ? "Passed ensurer 2!" : "Failed!");
 ```
 
 # 5. Conclusion
 
-This is a small tool that you can use in any type of your projects, to easily retrieve and reset values.
+This is a small tool that you can use in any type of your projects, to easily retrieve and reset values, among other operations.
