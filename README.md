@@ -20,41 +20,30 @@ Understanding that...
 4. check deep values of a nesteable.
 5. ensure deep values of a nesteable.
 
-What it is translated to:
+...or in other words...
 
-```js
+1. From this:
 
-const {get,set,modify,exists,ensure} = require("deep-getter-setter");
-const data = {a:{b:{c:{d:{e:{f:111}}}}}};
+	{a:{b:{c:{d:{e:{f:{g:{h:{i:{j:{k:{l:{m:888}}}}}}}}}}}}}
 
-// Get usage:
+2. And this:
 
-console.log(get(data, ['a','b','c','d','e','f']) === 111);
-console.log(get(data, "a b c d e f".split(" ")) === 111);
+	'a b c d e f g h i j k l m'.split(' ')
 
-// Set usage:
+3. You can get this: 
 
-console.log(set(data, 'a b c d e g'.split(" "), 222) === 222);
-console.log(get(data, 'a b c d e g'.split(" ")) === 222);
-console.log(set(data, 'a b c d e h'.split(" "), 333) === 333);
-console.log(get(data, 'a b c d e h'.split(" ")) === 333);
+	888
 
-// Modify usage:
+And like this feature, which is `get`, you can:
 
-console.log(modify(data, 'a b c d e g i'.split(" "), function(parent, key) {
-	
-}) === 2222);
-console.log(modify(data, 'a b c d e h'.split(" "), 333) === 333);
-
-// Check usage:
-
-console.log(exists(data, 'a b c d e f'))
-
-// Ensure usage:
+· `get`
+· `set`
+· `modify`
+· `check`
+· `ensure`
 
 
-
-```
+Note: Pssst!!! All of them are done by the `modify` method under the hood!
 
 # 2. Installation
 
