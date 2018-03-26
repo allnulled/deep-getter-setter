@@ -41,30 +41,38 @@ That is all.
 
 # 4. Usage
 
-### In browsers:
+### a) Start retrieving the 3 functions:
 
 ```js
 const get = DeepGetterSetter.get;
 const set = DeepGetterSetter.set;
 const modify = DeepGetterSetter.modify;
 ```
-### Example of usage:
 
-In Node.js (you can use this line to test the examples):
-```js
-const DeepGetterSetter = require("../src/deep-getter-setter.js");
-```
+### b) Test the example (found at `test/deep-getter-setter.js`):
 
-In browser:
 ```js
+// Retrieve the 3 functions:
 var {get,set,modify} = DeepGetterSetter;
+
+// Some random data:
 var data = {a:{b:[0,5,10]}};
+
+// Check that that the getter works okay:
 console.log(get(data, ["a","b","1"]) === 5 ? "Passed!" : "Failed!");
+
+// Use the setter:
 set(data, ["a","b","1"], 6);
+
+// Check that the setter worked good:
 console.log(get(data, ["a","b","1"]) === 6 ? "Passed!" : "Failed!");
+
+// Use the modifier:
 modify(data, ["a","b","1"], function(parent, key) {
  return ++parent[key];
 });
+
+// Check that the modifiers worked fine:
 console.log(get(data, ["a","b","1"]) === 7 ? "Passed!" : "Failed!");
 ```
 
