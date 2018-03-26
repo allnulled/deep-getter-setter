@@ -47,9 +47,9 @@ In these 3 functions (`get`, `set` and `modify`), there are only 2 common parame
 
 2. The `selector`: array with strings for each nested property to be accessed.
 
-3. In `set`, the final value of the selected item.
+3. a) In `set`, the final value of the selected item.
 		
-			In `modify`, the final function to apply on the selected item.
+b) In `modify`, the final function to apply on the selected item.
 
 
 
