@@ -33,9 +33,9 @@ const DeepGetterSetter = require("deep-getter-setter");
 
 There are only 3 functions to master here:
 
-1. get (data, selector): returns the item value.
-2. set (data, selector, value): redefines the item value.
-3. modify (data, selector, value): modifies the item value through a function.
+1. `get (data, selector)`: returns the item value.
+2. `set (data, selector, value)`: redefines the item value.
+3. `modify (data, selector, value)`: modifies the item value through a function.
 
 That is all.
 
