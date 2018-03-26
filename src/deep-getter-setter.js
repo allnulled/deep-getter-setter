@@ -41,7 +41,7 @@ function modifier (data, selector, action, actionEach = modifierEachCommon) {
 		ref = actionEach(ref[key], key, ref, a, selector.slice(0,a), acc, data);
 	}
 	var key = selector[selector.length-1];
-	return action(ref[key], key, ref, selector.length-1, selector, acc, data);
+	return action(key in ref ? ref[key] : undefined, key, ref, selector.length-1, selector, acc, data);
 };
 /*
  * @type {Function}
