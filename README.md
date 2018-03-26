@@ -37,9 +37,13 @@ Understanding that...
 And from this simple idea, you can:
 
 · `get`
+
 · `set`
+
 · `modify`
+
 · `check`
+
 · `ensure`
 
 
@@ -127,6 +131,28 @@ modify(someData, someSelector, function forLastNode (
 	// Our modifiers's iterative (from parents to leaves) code.
 }]
 ```
+
+4. The `value` at `set (data, selector, value)`:
+
+Value (of any type) that is going to set at the selected holder.
+
+```js
+set(x, ["a"], 4) // Then x.a === 4
+```
+
+5. The `success` and `error` at `exists(data, selector, success, error)`:
+
+Both are functions, and none obligatory. 
+
+By default, it will return true when exists, and false when it does not exist.
+
+```js
+exists(x, ["a"]) // Then true if a is in x.
+```
+
+6, The `value` at `ensure (data, selector, )
+
+6. The `
 
 # 4. Usage
 

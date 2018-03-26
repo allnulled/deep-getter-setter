@@ -1,9 +1,23 @@
+/**
+ * @type {Function}
+ * @name modifierEachCommon
+ * @param value
+ * @param key
+ * @param parent
+ * @param index
+ * @param selector
+ * @param data
+ * @param accumulation
+ * @return {any} the value for the parent next round
+ * @description
+ * 
+ */
 function modifierEachCommon (value, key, parent, index, selector, data, acc) {
 	if(typeof parent !== "object") {
 		throw "Key " + key +" not found because parent is not an object: " + parent;
 	}
 	if(!(key in parent)) {
-		throw "Key " + key + " not found in " + parent;
+		throw "Key " + key + " not found as key in " + parent;
 	}
 	return value;
 }
