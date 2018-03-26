@@ -1,0 +1,29 @@
+{
+  "name": "deep-getter-setter",
+  "version": "1.0.1",
+  "description": "Deep getter and setter for JavaScript. Minimal.",
+  "main": "src/deep-getter-setter.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "node test/deep-getter-setter-spec.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/allnulled/deep-getter-setter.git"
+  },
+  "keywords": [
+    "get",
+    "set",
+    "modify",
+    "deep",
+    "object"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/allnulled/deep-getter-setter/issues"
+  },
+  "homepage": "https://github.com/allnulled/deep-getter-setter#readme"
+}
